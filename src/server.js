@@ -2,6 +2,7 @@ const express = require("express");
 const { User } = require("./models/UserModel");
 const { generateJWT } = require("./functions/jwtFunctions");
 const { validateUserAuth } = require("./functions/jwtFunctions.js")
+const cors = require('cors');
 
 const app = express();
 
@@ -10,6 +11,12 @@ app.use(express.json());
 // Enable this if you want front-ends to have more freedom about how they make requests
 // eg. this is for HTML URL-encoded forms 
 // app.use(express.urlencoded({extended: true}));
+
+let corsOptions =  {
+    origin: ["http://localhost:3000", "http://localhost:5173", "https://deployedreactapp.com"],
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 app.get("/", (request, response) => {
 	response.json({
