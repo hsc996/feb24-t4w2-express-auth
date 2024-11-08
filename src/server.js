@@ -47,9 +47,9 @@ app.post("/signup", async (request, response) => {
 
 // Running a piece of middleware, so requires you to be signed in
 app.get("/protectedRoute", validateUserAuth, (request, response) => {
-    response.json({
-        message:"You can see protected content because you're signed in!"
-    });
+	response.json({
+		message:"You can see protected content because you're signed in!"
+	});
 })
 
 module.exports = {
