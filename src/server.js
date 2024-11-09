@@ -1,7 +1,6 @@
 const express = require("express");
 const { User } = require("./models/UserModel");
-const { generateJWT } = require("./functions/jwtFunctions");
-const { validateUserAuth } = require("./functions/jwtFunctions.js")
+const { generateJWT, validateUserAuth } = require("./functions/jwtFunctions");
 const cors = require("cors");
 
 const app = express();
@@ -12,11 +11,14 @@ app.use(express.json());
 // eg. this is for HTML URL-encoded forms 
 // app.use(express.urlencoded({extended: true}));
 
-let corsOptions =  {
-    origin: ["http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173","https://deployedreactapp.com"],
-    optionsSuccessStatus: 200
+let corsOptions = {
+	//			CRA local					Vite local				Vite local				Deployed React app
+	origin: ["http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173","https://deployedreactapp.com"],
+	optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
+
+
 
 app.get("/", (request, response) => {
 	response.json({
@@ -34,7 +36,7 @@ app.post("/signup", async (request, response) => {
 			message:"Incorrect or missing sign-up credentials provided."
 		});
 	}
-	
+
 
 	// make a user in the DB using the username and password
 	let newUser = await User.create({username: username, password: password});
@@ -52,7 +54,6 @@ app.post("/signup", async (request, response) => {
 	});
 });
 
-// Running a piece of middleware, so requires you to be signed in
 app.get("/protectedRoute", validateUserAuth, (request, response) => {
 	response.json({
 		message:"You can see protected content because you're signed in!"
