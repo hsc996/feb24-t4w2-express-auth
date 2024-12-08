@@ -56,7 +56,7 @@ app.post("/signup", async (request, response) => {
 
 app.get("/protectedRoute", validateUserAuth, (request, response) => {
 	response.json({
-		message:"You can see protected content because you're signed in!"
+		message:"You can see protected content because you're not signed in!"
 	});
 })
 
